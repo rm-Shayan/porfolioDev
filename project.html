@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rao Muhammad Shayan - Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        /* Base colors for light theme */
+        :root {
+            --bg-primary: #f0f2f5; /* Main background for sections like About, Contact */
+            --bg-secondary: #ffffff; /* Background for Header, Skills, Projects, Testimonials */
+            --bg-card: #f9fafb; /* Lighter than secondary for cards */
+            --text-primary: #2d3748; /* General text color */
+            --text-secondary: #4a5568; /* Subheadings, less prominent text */
+            --heading-color: #1a202c; /* Main headings */
+            --border-color: #e2e8f0; /* Borders, input fields */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-hover-color: rgba(0, 0, 0, 0.15);
+            --scrollbar-track: #e2e8f0;
+            --scrollbar-thumb: #a0aec0;
+            --scrollbar-thumb-hover: #718096;
+        }
+
+        /* Dark theme colors */
+        .dark {
+            --bg-primary: #1a202c;
+            --bg-secondary: #2d3748;
+            --bg-card: #374151;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --heading-color: #f7fafc;
+            --border-color: #4a5568;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --shadow-hover-color: rgba(0, 0, 0, 0.4);
+            --scrollbar-track: #2d3748;
+            --scrollbar-thumb: #4a5568;
+            --scrollbar-thumb-hover: #6b7280;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .gradient-button {
+            background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 15px var(--shadow-color);
+        }
+        .gradient-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 20px var(--shadow-hover-color);
+        }
+        .section-heading {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--heading-color);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.05em;
+        }
+        .sub-heading {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+
+        /* Card hover effect */
+        .card-hover-effect {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow-hover-color);
+        }
+
+        /* Themed background and text colors */
+        .bg-white-themed { background-color: var(--bg-secondary); }
+        .bg-gray-50-themed { background-color: var(--bg-primary); }
+        .bg-gray-200-themed { background-color: var(--border-color); }
+        .text-gray-800-themed { color: var(--text-primary); }
+        .text-gray-900-themed { color: var(--heading-color); }
+        .text-gray-700-themed { color: var(--text-secondary); }
+        .text-gray-600-themed { color: var(--text-secondary); }
+        .border-gray-100-themed { border-color: var(--border-color); }
+        .border-gray-200-themed { border-color: var(--border-color); }
+        .border-gray-300-themed { border-color: var(--border-color); }
+        .shadow-md-themed { box-shadow: 0 4px 6px var(--shadow-color); }
+        .shadow-lg-themed { box-shadow: 0 10px 15px var(--shadow-color); }
+        .shadow-xl-themed { box-shadow: 0 20px 25px var(--shadow-color); }
+        .shadow-2xl-themed { box-shadow: 0 25px 50px var(--shadow-color); }
+        .shadow-inner-themed { box-shadow: inset 0 2px 4px var(--shadow-color); }
+
+        /* GSAP specific styles for initial state */
+        .project-card-gsap {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        /* NEW CSS FOR 3D ROTATING CARDS */
+        .wrapper {
+            width: 100%;
+            /* Set a specific height for the wrapper to contain the 3D effect */
+            height: 500px; /* Adjust as needed */
+            position: relative;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            /* Add some padding-top to push it down from the section heading */
+            padding-top: 50px;
+        }
+
+        .inner {
+            --w: 100px;
+            --h: 150px;
+            --translateZ: calc((var(--w) + var(--h)) + 0px);
+            --rotateX: -15deg;
+            --perspective: 1000px;
+            position: absolute;
+            width: var(--w);
+            height: var(--h);
+            /* Centering using top/left and transform is more robust for 3D */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) perspective(var(--perspective));
+            z-index: 2;
+            transform-style: preserve-3d;
+            animation: rotating 20s linear infinite;
+        }
+        @keyframes rotating {
+            from {
+                transform: translate(-50%, -50%) perspective(var(--perspective)) rotateX(var(--rotateX))
+                    rotateY(0);
+            }
+            to {
+                transform: translate(-50%, -50%) perspective(var(--perspective)) rotateX(var(--rotateX))
+                    rotateY(1turn);
+            }
+        }
+
+        .card {
+            position: absolute;
+            border: 2px solid rgba(var(--color-card));
+            border-radius: 12px;
+            overflow: hidden;
+            inset: 0;
+            /* Ensure the transform origin is correct for rotation */
+            transform-origin: center center;
+            transform: rotateY(calc((360deg / var(--quantity)) * var(--index)))
+                translateZ(var(--translateZ));
+        }
+
+        .img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #0000
+                radial-gradient(
+                    circle,
+                    rgba(var(--color-card), 0.2) 0%,
+                    rgba(var(--color-card), 0.6) 80%,
+                    rgba(var(--color-card), 0.9) 100%
+                );
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <header class="bg-white-themed shadow-lg py-4 px-6 md:px-12 fixed w-full z-50">
+        <nav class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="https://placehold.co/40x40/6a11cb/ffffff?text=RS" alt="Rao Shayan Logo" class="rounded-full mr-3 shadow-md-themed">
+                <span class="text-2xl font-bold text-gray-900-themed">Rao Muhammad Shayan</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
+                <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8 text-gray-700-themed font-medium">
+                    <li><a href="index.html" class="hover:text-blue-600 transition-colors duration-300 relative group">Home<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a></li>
+                    <li><a href="about.html" class="hover:text-blue-600 transition-colors duration-300 relative group">About<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a></li>
+                    <li><a href="index.html#services" class="hover:text-blue-600 transition-colors duration-300 relative group">Services<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a></li>
+                    <li><a href="index.html#testimonial" class="hover:text-blue-600 transition-colors duration-300 relative group">Testimonial<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a></li>
+                    <li><a href="projects.html" class="hover:text-blue-600 transition-colors duration-300 relative group">Projects<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a></li>
+                    <li><a href="index.html#contact" class="hover:text-blue-600 transition-colors duration-300 relative group">Contact<span class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span></a></li>
+                </ul>
+                <div class="flex items-center space-x-5 text-gray-700-themed">
+                    <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition-colors duration-300 text-lg"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition-colors duration-300 text-lg"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" class="hover:text-blue-600 transition-colors duration-300 text-lg"><i class="fab fa-linkedin-in"></i></a>
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-colors duration-300">
+                        <i class="fas fa-moon text-lg" id="theme-toggle-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-24">
+        <section id="projects" class="bg-white-themed py-20 md:py-32">
+            <div class="container mx-auto px-6 md:px-12 text-center">
+                <h2 class="section-heading">My Latest Projects</h2>
+                <p class="sub-heading">A look at my completed projects</p>
+
+                <div id="projects-container">
+                    <div class="wrapper">
+                        <div class="inner" style="--quantity: 10;">
+                            <div class="card" style="--index: 0;--color-card: 142, 249, 252;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 1;--color-card: 142, 252, 204;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 2;--color-card: 142, 252, 157;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 3;--color-card: 215, 252, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 4;--color-card: 252, 252, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 5;--color-card: 252, 208, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 6;--color-card: 252, 142, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 7;--color-card: 252, 142, 239;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 8;--color-card: 204, 142, 252;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 9;--color-card: 142, 202, 252;">
+                                <div class="img"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-10 text-center">
+        <div class="container mx-auto px-6 md:px-12">
+            <p class="text-lg mb-4">&copy; 2025 Rao Muhammad Shayan. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4 text-xl">
+                <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition-colors duration-300"><i class="fab fa-github"></i></a>
+                <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition-colors duration-300"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" class="hover:text-blue-400 transition-colors duration-300"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for theme toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleIcon = document.getElementById('theme-toggle-icon');
+            const body = document.body;
+            const projectsContainer = document.getElementById('projects-container'); // Get projects container
+
+            // Function to apply theme
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    body.classList.add('dark');
+                    themeToggleIcon.classList.remove('fa-moon');
+                    themeToggleIcon.classList.add('fa-sun');
+                } else {
+                    body.classList.remove('dark');
+                    themeToggleIcon.classList.remove('fa-sun');
+                    themeToggleIcon.classList.add('fa-moon');
+                }
+                localStorage.setItem('theme', theme);
+            }
+
+            // Check for saved theme preference on load
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            // Theme toggle event listener
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = localStorage.getItem('theme');
+                if (currentTheme === 'dark') {
+                    applyTheme('light');
+                } else {
+                    applyTheme('dark');
+                }
+            });
+
+            // Function to render projects (now only the 3D carousel)
+            function renderProjects() {
+                projectsContainer.innerHTML = `
+                    <div class="wrapper">
+                        <div class="inner" style="--quantity: 10;">
+                            <div class="card" style="--index: 0;--color-card: 142, 249, 252;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 1;--color-card: 142, 252, 204;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 2;--color-card: 142, 252, 157;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 3;--color-card: 215, 252, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 4;--color-card: 252, 252, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 5;--color-card: 252, 208, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 6;--color-card: 252, 142, 142;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 7;--color-card: 252, 142, 239;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 8;--color-card: 204, 142, 252;">
+                                <div class="img"></div>
+                            </div>
+                            <div class="card" style="--index: 9;--color-card: 142, 202, 252;">
+                                <div class="img"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Call renderProjects when the DOM is fully loaded
+            renderProjects();
+        });
+    </script>
+</body>
+</html>
