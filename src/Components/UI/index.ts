@@ -1,0 +1,6 @@
+export {Layout} from "./Layout"
+export {HeroSection} from "./Hero"
+export {TechStack} from "./TechStack"
+export {AboutMePreview} from "./AboutComp"
+export {ProjectsPreview} from "./ProjectsPreview"
+export {ContactCTA} from "./CTA"

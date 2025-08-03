@@ -1,0 +1,1 @@
+export {AboutMePreview} from "./AboutComp"
