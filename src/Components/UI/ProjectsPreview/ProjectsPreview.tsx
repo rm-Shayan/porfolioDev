@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Link } from "react-router-dom";
+
 
 // Register the ScrollTrigger plugin with GSAP
 gsap.registerPlugin(ScrollTrigger);
@@ -91,8 +91,8 @@ export const ProjectsPreview = ({ theme }: ProjectsPreviewProps) => {
         ))}
       </div>
       <div className="text-center mt-10">
-  <Link
-  to="/about"
+  <a
+href="https://github.com/rm-shayan"
   className={`mt-8 inline-block px-6 py-3 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 border-2
     ${
       theme === "dark"
@@ -101,7 +101,7 @@ export const ProjectsPreview = ({ theme }: ProjectsPreviewProps) => {
     }`}
 >
   Preview More
-</Link>
+</a>
 
       </div>
     </section>

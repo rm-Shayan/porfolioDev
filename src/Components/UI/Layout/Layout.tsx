@@ -1,6 +1,7 @@
 import { useAppSelector } from "../../../App/Hooks";
 import { Header } from "../Header";
 import { Outlet } from "react-router-dom";
+import { Footer } from "../Footer";
 
 export const Layout = () => {
   // Get the current theme from the Redux store.
@@ -29,6 +30,8 @@ export const Layout = () => {
         >
           <Outlet />
         </main>
+              <hr className={`border-t-2 ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'}`} />
+ <Footer />
       </div>
     </>
   );

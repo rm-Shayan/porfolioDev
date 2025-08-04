@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { LuFileSignature } from "react-icons/lu";
 import { TypeAnimation } from "react-type-animation";
 
+import image from    "../../../assets/mine.jpg"
 // Define the props for the component, specifically the theme.
 interface HeroSectionProps {
   theme: "dark" | "light";
@@ -146,7 +147,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ theme }) => {
             }`}
         >
           <span className="text-sm z-10 text-gray-600 dark:text-gray-300">
-            [ Your Image / Lottie / Canvas ]
+           <img src={image} alt="mine image" />
           </span>
         </div>
       </div>

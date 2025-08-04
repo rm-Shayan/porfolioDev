@@ -67,7 +67,7 @@ export const AboutMePreview = ({ theme }: Props) => {
             theme === "dark" ? "text-gray-100" : "text-gray-800"
           }`}
         >
-          I am a passionate frontend developer with a strong focus on performance, accessibility, and responsive design...
+      I'm a Full Stack Web Developer skilled in building modern, responsive, and scalable web applications using the MERN stack (MongoDB, Express, React, Node). I enjoy turning ideas into reality with clean code and smooth user experiences. Passionate about both frontend and backend development, I'm always learning and exploring new technologies to improve my craft.
         </p>
     <Link
   to="/about"

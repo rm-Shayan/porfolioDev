@@ -1,56 +1,68 @@
-import gsap from "gsap";
 import { useRef, useEffect } from "react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link } from "react-router-dom";
 
-// Register ScrollTrigger once
 gsap.registerPlugin(ScrollTrigger);
 
 export const ContactCTA = ({ theme }: { theme: string }) => {
-  const ctaRef = useRef<HTMLDivElement | null>(null);
+ const ctaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (ctaRef.current) {
-      gsap.from(ctaRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ctaRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
-    }
+    // Add a slight delay to ensure the DOM is ready
+    const timer = setTimeout(() => {
+      const element = ctaRef.current;
 
-    // Optional: Cleanup
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+      if (element) {
+        gsap.from(element, {
+          y: 50,
+          opacity: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
+    }, 100); // 100ms delay
+
+    return () => clearTimeout(timer); // Clean up the timer
   }, []);
+
 
   return (
     <section
       id="contact"
       ref={ctaRef}
-      className={`py-20 text-center rounded-xl transition-colors duration-500 ${
-        theme === "dark" ? "bg-fuchsia-900/30" : "bg-fuchsia-100/30"
-      }`}
+      className={`py-20 px-4 text-center rounded-xl transition-colors duration-500 mx-4 sm:mx-8 md:mx-16 my-20
+
+      `}
     >
-      <h2 className="text-3xl font-bold mb-4">Let’s work together</h2>
-      <p className="text-lg max-w-3xl mx-auto">
-        I am available for freelance projects and full-time opportunities.
-      </p>
-      <a
-        href="/contact"
-        className={`mt-6 inline-block px-8 py-4 rounded-full text-white font-semibold transition-all duration-300 transform hover:scale-105 ${
-          theme === "dark"
-            ? "bg-fuchsia-600 hover:bg-fuchsia-700"
-            : "bg-fuchsia-400 hover:bg-fuchsia-500"
+      <h2 className="text-3xl sm:text-4xl md:text-5xl  font-bold mb-4 py-4 animate-gradient-reverse bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+        Let’s work together
+      </h2>
+
+      <p
+        className={`text-lg max-w-3xl mx-auto  ${
+          theme === "dark" ? "text-gray-300" : "text-gray-700"
         }`}
       >
-        Contact Me
-      </a>
+        I am available for freelance projects and full-time opportunities.
+      </p>
+
+    <Link
+  to="/contact"
+  className={`mt-8 inline-block px-6 py-3 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 border-2
+    ${
+      theme === "dark"
+        ? "border-fuchsia-600 text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-500 to-purple-600 hover:bg-fuchsia-600 hover:text-white hover:bg-clip-border"
+        : "border-fuchsia-400 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:bg-fuchsia-400 hover:text-white hover:bg-clip-border"
+    }`}
+>
+  Preview More
+</Link>
     </section>
   );
 };
